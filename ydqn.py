@@ -43,7 +43,7 @@ class yunduan():
                     self.msglistitem = b.children()[2]
                 if b.class_name() == "TFrmIcon":
                     self.wu = b
-                    break
+
 
     def openwu(self):
         for a in self.dlg.children():
