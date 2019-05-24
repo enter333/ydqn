@@ -46,13 +46,9 @@ class yunduan():
 
 
     def openwu(self):
-        for a in self.dlg.children():
-            print(a.class_name())
-            if a.class_name() == "TFrmBottom":
-                for b in a.children():
-                    if b.class_name() == "TFrmIcon":
-                        self.wu = b
-                        break
+        if self.wu == None:
+            print("wu is None")
+            return
         ## 点击 无 字
         x = self.wu.rectangle().left
         x = x + random.randint(5,20)
@@ -74,6 +70,9 @@ class yunduan():
                 print(c.class_name())
 
     def gettab(self):
+        if self.tab == None:
+            print("tab is None")
+            return
 ##        print(self.dlg.TabControl)
         try:
             self.tab = self.dlg.TabControl.wrapper_object()
