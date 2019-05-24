@@ -11,6 +11,8 @@ from ImgProc import imgproc
 
 class yunduan():
     def __init__(self):
+        # self.func 挂对话框
+        self.func = None  
         self.nowdir = os.getcwd()
         self.txdym = Image.open("{}\\temp\\txdym.png".format(self.nowdir))
 
@@ -44,28 +46,33 @@ class yunduan():
                 if b.class_name() == "TFrmIcon":
                     self.wu = b
 
-
     def openwu(self):
         if self.wu == None:
             print("wu is None")
             return
-        ## 点击 无 字
-        x = self.wu.rectangle().left
-        x = x + random.randint(5,20)
-        y = self.wu.rectangle().top
-        y = y + random.randint(5,20)
-        mouse.move(coords=(x,y))
-        mouse.click(coords=(x,y))
-        print("======")
+        # 如果窗口没有显示，就点击无字
+        if self.func == None:
+            ## 点击 无 字
+            x = self.wu.rectangle().left
+            x = x + random.randint(5,20)
+            y = self.wu.rectangle().top
+            y = y + random.randint(5,20)
+            mouse.move(coords=(x,y))
+            mouse.click(coords=(x,y))
+            print("======")
+        '''
+        查找弹出的对话框
+        '''
         for a in self.dlg.children():
             print(a.class_name())
+            # 弹出的主对话框
             if a.class_name() == "TFrmFunction":
-                self.tab = a
-        for b in self.tab.children()[0].children():
+                self.func = a
+        # tab标签页
+        for b in self.func.children()[0].children():
             if b.class_name() == "TabControl":
                 self.tab = b
             print(b.class_name())
-            print(b.print_control_identifiers())
             for c in b.children():
                 print(c.class_name())
 
