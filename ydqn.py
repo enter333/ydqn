@@ -205,17 +205,11 @@ class yunduan():
             return rms
 
     def _get_area_image(self):
-        for a in self.dlg.children():
-            if a.class_name() == 'TFrmBottom':
-                self.edt = a.children()[1]
-                for i in range(2):
-                    self.edt.set_edit_text("/where")
-                    time.sleep(1)
-                    self.edt.type_keys("{ENTER}")
-                for b in a.children():
-                    if b.class_name() == 'TListBox':
-                        self.msglistitem = b.children()[2]
-                        self.area = self.msglistitem.capture_as_image()
+        for i in range(2):
+            self.edt.set_edit_text("/where")
+            self.edt.type_keys("{ENTER}")
+            time.sleep(1)
+        self.area = self.msglistitem.capture_as_image()
 
     def compareimage(self):
         self.area = self.msglistitem.capture_as_image()
