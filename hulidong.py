@@ -5,6 +5,7 @@ def init():
     yd = ydqn.yunduan()
     yd.getpid("Fysw.atd")
     yd.linkprocess()
+    yd.setcontrol()
     yd._get_area_image()
     yd.openwu()
     yd.gettab()
