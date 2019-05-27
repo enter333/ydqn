@@ -14,7 +14,7 @@ class yunduan():
         # self.func 挂对话框
         self.func = None  
         self.nowdir = os.getcwd()
-        self.txdym = Image.open("{}\\temp\\txdym.png".format(self.nowdir))
+        self.txdym = Image.open("{}\\temp\\hld.png".format(self.nowdir))
 
 
     def getpid(self,processname):
@@ -37,12 +37,14 @@ class yunduan():
 
     def setcontrol(self):
         for a in self.dlg.children():
-            print(a.class_name())
+##            print(a.class_name())
             if a.class_name() == "TFrmBottom":
                 self.edt = a.children()[1]
             for b in a.children():
                 if b.class_name() == 'TListBox':
                     self.msglistitem = b.children()[2]
+##                    im = self.msglistitem.capture_as_image()
+##                    im.save("{}\\temp\\hld.png".format(self.nowdir))
                 if b.class_name() == "TFrmIcon":
                     self.wu = b
 
@@ -50,85 +52,73 @@ class yunduan():
         if self.wu == None:
             print("wu is None")
             return
-        # 如果窗口没有显示，就点击无字
-        if self.func == None:
-            ## 点击 无 字
+        '''
+        查找弹出的对话框
+        '''
+        winlist = {}
+        for a in self.dlg.children():
+            winlist[a.class_name()] = a
+        if "TFrmFunction" in winlist.keys():
+            self.func = winlist["TFrmFunction"]
+        else:
+            # 如果窗口没有显示，就点击无字
             x = self.wu.rectangle().left
             x = x + random.randint(5,20)
             y = self.wu.rectangle().top
             y = y + random.randint(5,20)
             mouse.move(coords=(x,y))
             mouse.click(coords=(x,y))
-            print("======")
-        '''
-        查找弹出的对话框
-        '''
-        for a in self.dlg.children():
-            print(a.class_name())
-            # 弹出的主对话框
-            if a.class_name() == "TFrmFunction":
-                self.func = a
+##            print("======")
+            for a in self.dlg.children():
+                if a.class_name() == "TFrmFunction":
+                    self.func = a
+                    break
         # tab标签页
         for b in self.func.children()[0].children():
-            if b.class_name() == "TabControl":
+            if b.class_name() == "TPageControl":
                 self.tab = b
-            print(b.class_name())
-            for c in b.children():
-                print(c.class_name())
+##                print("self.tab:",self.tab.class_name())
+            for c in self.tab.children():
+##                print("c=",c.texts())
+                if c.class_name() == "msctls_updown32":
+                    self.d = c
 
-    def gettab(self):
-        if self.tab == None:
-            print("tab is None")
-            return
-##        print(self.dlg.TabControl)
-        try:
-            self.tab = self.dlg.TabControl.wrapper_object()
-        except:
-            print("not found tab.")
-            exit
-
-    def openother(self):
-        self.tabchild = self.tab.children()
-##        print(len(self.tabchild))
-##        for t in self.tabchild:
-##            print(t)
-        r = self.tab.rectangle().right
-        if r < 800:
-            x = 0
-            y = 0
-            ## tab 页面向右滚动按钮
-            x = self.tabchild[1].children()[1].rectangle().left
-            x = x + 5
-            y = self.tabchild[1].children()[1].rectangle().top
-            y = y + 5
-
-            ## 点击 5次向右 
-            for i in range(5):
-                mouse.click(coords=(x,y))
-                
-            ## ## tab 页面向右滚动按钮，点击 1次向左
-            x = self.tabchild[1].children()[0].rectangle().left
-            x = x + 5
-            y = self.tabchild[1].children()[0].rectangle().top
-            y = y + 5
-            mouse.click(coords=(x,y))
-
-            # 点击 关于 
-            x = self.tabchild[6].rectangle().left
-            x = x + 5
-            y = self.tabchild[6].rectangle().top
-            y = y + 5
-            mouse.click(coords=(x,y))
-
-            ## 点击 配置
-            x = self.tabchild[5].rectangle().left
-            x = x + 5
-            y = self.tabchild[5].rectangle().top
-            y = y + 5
-            mouse.click(coords=(x,y))
-##            print(len(self.tabchild))
-##            for t in self.tabchild:
-##                print(t)
+                    x = self.d.rectangle().left
+                    x = x + random.randint(5,10)
+                    y = self.d.rectangle().top
+                    y = y + random.randint(5,10)
+                    mouse.move(coords=(x,y))
+                    mouse.click(coords=(x,y))
+                    mouse.click(coords=(x,y))
+                    
+                    x = self.d.rectangle().left
+                    x = x + random.randint(5,10) + 20
+                    y = self.d.rectangle().top
+                    y = y + random.randint(5,10)
+                    mouse.move(coords=(x,y))
+                    mouse.click(coords=(x,y))
+                    mouse.click(coords=(x,y))
+                    
+                if c.texts()[0] == "其他":
+                    self.qita = c
+##                    print("qita=",self.qita.texts())
+                    x = self.qita.rectangle().left
+                    x = x + random.randint(5,10)
+                    y = self.qita.rectangle().top
+                    y = y + random.randint(5,10)
+                    mouse.move(coords=(x,y))
+                    mouse.click(coords=(x,y))
+        for a in self.tab.children():
+            for b in a.children():
+##                print(b.class_name())
+                if b.class_name() == "TGroupBox":
+                    for c in b.children():
+##                        print(c.class_name())
+##                        print(c.texts())
+                        if c.class_name() == "TButton":
+                            self.killset = c
+                        if c.texts()[0] == "自动杀怪":
+                            self.autokillcb = c
 
     def setkillctrl(self):
         self.othera = self.tabchild[0].children()[0]
@@ -212,8 +202,9 @@ class yunduan():
         self.area = self.msglistitem.capture_as_image()
 
     def compareimage(self):
-        self.area = self.msglistitem.capture_as_image()
 ##        self.area = Image.open("{}\\temp\\txdym.png".format(self.nowdir))
+##        self.area.show()
+##        self.txdym.show()
         return self._compareimage(self.area,self.txdym)
 
 
@@ -221,18 +212,22 @@ if __name__ == "__main__":
     yd = yunduan()
     yd.getpid("Fysw.atd")
     yd.linkprocess()
+    yd.setcontrol()
+    yd.openwu()
+    yd.openkillset()
     yd._get_area_image()
-    print(round(yd.compareimage(),0))
-    if (round(yd.compareimage(),0)) > 1 :
+    imgret = yd.compareimage()
+    print(imgret)
+    if round(imgret*10,0) > 1 :
         print("ccyn")
     else:
-        print("txdym")
+        print("hld")
 
 ##    yd.openwu()
 ##    yd.gettab()
 ##    yd.openother()
 ##    yd.setkillctrl()
-##    yd.openkillset()
+##    
 ##    time.sleep(2)
 ##    yd.closekillset()
 ##    yd.startkill()
