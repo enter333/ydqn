@@ -8,9 +8,6 @@ def init():
     yd.setcontrol()
     yd._get_area_image()
     yd.openwu()
-    yd.gettab()
-    yd.openother()
-    yd.setkillctrl()
     return yd
     
 def set_ccyn_ddr(yd):

@@ -14,7 +14,7 @@ class yunduan():
         # self.func 挂对话框
         self.func = None  
         self.nowdir = os.getcwd()
-        self.txdym = Image.open("{}\\temp\\hld.png".format(self.nowdir))
+        self.hld = Image.open("{}\\temp\\hld.png".format(self.nowdir))
 
 
     def getpid(self,processname):
@@ -119,18 +119,13 @@ class yunduan():
                             self.killset = c
                         if c.texts()[0] == "自动杀怪":
                             self.autokillcb = c
-
-    def setkillctrl(self):
-        self.othera = self.tabchild[0].children()[0]
-        cl = self.othera.children()
-        self.huticb = cl[0]
-        self.point = cl[2]
-        self.pointlist = cl[3]
-        self.monster = cl[4]
-        self.monsterlist = cl[5]
-        self.autokillcb = cl[6]
-        self.killset = cl[7]
-
+                    cl = b.children()
+                    self.huticb = cl[0]
+                    self.point = cl[2]
+                    self.pointlist = cl[3]
+                    self.monster = cl[4]
+                    self.monsterlist = cl[5]
+                    self.autokillcb = cl[6]
         
 
     def startkill(self):
@@ -202,20 +197,25 @@ class yunduan():
         self.area = self.msglistitem.capture_as_image()
 
     def compareimage(self):
-##        self.area = Image.open("{}\\temp\\txdym.png".format(self.nowdir))
-##        self.area.show()
-##        self.txdym.show()
-        return self._compareimage(self.area,self.txdym)
+        # self.area = Image.open("{}\\temp\\ccyn.png".format(self.nowdir))
+        # self.hld = Image.open("{}\\temp\\hld.png".format(self.nowdir))
+        sz = self.area.size
+        self.areacut = self.area.crop((36,0,sz[0],sz[1]))
+        self.areacut.show()
+        sz = self.hld.size
+        self.hldcut = self.hld.crop((36,0,sz[0],sz[1]))
+        self.hldcut.show()
+        return self._compareimage(self.areacut,self.hldcut)
 
 
 if __name__ == "__main__":
     yd = yunduan()
-    yd.getpid("Fysw.atd")
-    yd.linkprocess()
-    yd.setcontrol()
-    yd.openwu()
-    yd.openkillset()
-    yd._get_area_image()
+    # yd.getpid("Fysw.atd")
+    # yd.linkprocess()
+    # yd.setcontrol()
+    # yd.openwu()
+    # yd.openkillset()
+    # yd._get_area_image()
     imgret = yd.compareimage()
     print(imgret)
     if round(imgret*10,0) > 1 :
