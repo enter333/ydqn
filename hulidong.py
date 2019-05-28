@@ -6,8 +6,8 @@ def init():
     yd.getpid("Fysw.atd")
     yd.linkprocess()
     yd.setcontrol()
-    yd._get_area_image()
     yd.openwu()
+    yd.openkillset()
     return yd
     
 def set_ccyn_ddr(yd):
@@ -15,7 +15,7 @@ def set_ccyn_ddr(yd):
     yd.stopkill()
     yd.clearpoint()
     
-    yd.addpoint("29,109")
+    yd.addpoint("141,265")
 
     yd.clearmonster()
     yd.addmonster("挑点")
@@ -29,9 +29,11 @@ def set_huli_addr(yd):
     yd.stopkill()
     yd.clearpoint()
     
-    yd.addpoint("129,157")
-    yd.addpoint("150,162")
-    yd.addpoint("162,139")
+    yd.addpoint("52,95")
+    yd.addpoint("61,61")
+    yd.addpoint("118,30")
+    yd.addpoint("140,103")
+    yd.addpoint("112,116")
 
     yd.clearmonster()
     yd.addmonster("白")
@@ -40,10 +42,11 @@ def set_huli_addr(yd):
     yd.closekillset()
 
 def where(yd):
-    if (round(yd.compareimage(),0)) > 1 :
+    imgret = yd.compareimage()
+    if round(imgret*10,0) > 1 :
         return "ccyn"
     else:
-        return "txdym"
+        return "hld"
         
         
 if __name__ == "__main__":

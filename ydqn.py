@@ -191,20 +191,21 @@ class yunduan():
 
     def _get_area_image(self):
         for i in range(2):
+            time.sleep(1)
             self.edt.set_edit_text("/where")
             self.edt.type_keys("{ENTER}")
-            time.sleep(1)
         self.area = self.msglistitem.capture_as_image()
 
     def compareimage(self):
         # self.area = Image.open("{}\\temp\\ccyn.png".format(self.nowdir))
         # self.hld = Image.open("{}\\temp\\hld.png".format(self.nowdir))
+        self._get_area_image()
         sz = self.area.size
         self.areacut = self.area.crop((36,0,sz[0],sz[1]))
-        self.areacut.show()
+        # self.areacut.show()
         sz = self.hld.size
         self.hldcut = self.hld.crop((36,0,sz[0],sz[1]))
-        self.hldcut.show()
+        # self.hldcut.show()
         return self._compareimage(self.areacut,self.hldcut)
 
 
@@ -215,7 +216,6 @@ if __name__ == "__main__":
     # yd.setcontrol()
     # yd.openwu()
     # yd.openkillset()
-    # yd._get_area_image()
     imgret = yd.compareimage()
     print(imgret)
     if round(imgret*10,0) > 1 :
